@@ -52,6 +52,11 @@ namespace rray {
   }
 
   static inline
+  void poke_dimension_sizes(r_obj* x, r_obj* dimension_sizes) {
+    r_attrib_poke_dim(x, dimension_sizes);
+  }
+
+  static inline
   r_ssize dimensionality(r_obj* x) {
     r_obj* out = r_dim(x);
 
