@@ -12,6 +12,7 @@ RoxygenNote: 7.1.2
 URL: https://github.com/DavisVaughan/rray3
 BugReports: https://github.com/DavisVaughan/rray3/issues
 Imports: 
-    rlang (>= 0.99.0.9000)
+    rlang (>= 0.99.0.9000),
+    vctrs (>= 0.3.8)
 Remotes:
     r-lib/rlang
