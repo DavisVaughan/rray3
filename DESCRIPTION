@@ -16,3 +16,7 @@ Imports:
     vctrs (>= 0.3.8)
 Remotes:
     r-lib/rlang
+SystemRequirements: C++11
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
