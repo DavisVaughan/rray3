@@ -18,5 +18,6 @@ Remotes:
     r-lib/rlang
 SystemRequirements: C++11
 Suggests: 
+    covr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

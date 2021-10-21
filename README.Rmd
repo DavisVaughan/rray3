@@ -16,6 +16,8 @@ knitr::opts_chunk$set(
 # rray3
 
 <!-- badges: start -->
+[![Codecov test coverage](https://codecov.io/gh/DavisVaughan/rray3/branch/main/graph/badge.svg)](https://app.codecov.io/gh/DavisVaughan/rray3?branch=main)
+[![R-CMD-check](https://github.com/DavisVaughan/rray3/workflows/R-CMD-check/badge.svg)](https://github.com/DavisVaughan/rray3/actions)
 <!-- badges: end -->
 
 The goal of rray3 is to ...
