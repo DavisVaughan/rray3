@@ -8,8 +8,8 @@ namespace rray {
   namespace detail {
 
     static inline
-    bool is_atomic(r_obj* x) {
-      switch(r_typeof(x)) {
+    bool is_atomic(const enum r_type& type) {
+      switch(type) {
       case R_TYPE_logical:
       case R_TYPE_integer:
       case R_TYPE_double:
@@ -23,6 +23,15 @@ namespace rray {
       }
     }
 
+    [[noreturn]]
+    static inline
+    void stop_non_atomic_typeof(const enum r_type& type) {
+      r_abort(
+        "`x` must be an atomic vector type, not a <%s>.",
+        r_type_as_c_string(type)
+      );
+    }
+
   } // namespace detail
 
   static inline
@@ -33,14 +42,30 @@ namespace rray {
       return out;
     }
 
-    if (!detail::is_atomic(x)) {
-      r_abort(
-        "`x` must be an atomic vector type, not a <%s>.",
-        r_type_as_c_string(r_typeof(x))
-      );
+    const r_type type = r_typeof(x);
+
+    if (!detail::is_atomic(type)) {
+      detail::stop_non_atomic_typeof(type);
     }
 
     return r_int(r_ssize_as_integer(r_length(x)));
+  }
+
+  static inline
+  r_ssize dimensionality(r_obj* x) {
+    r_obj* out = r_dim(x);
+
+    if (out != r_null) {
+      return r_length(out);
+    }
+
+    const r_type type = r_typeof(x);
+
+    if (!detail::is_atomic(type)) {
+      detail::stop_non_atomic_typeof(type);
+    }
+
+    return 1;
   }
 
 } // namespace rray
