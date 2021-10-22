@@ -11,12 +11,14 @@ r_obj* ffi_rray_init_library(r_obj* ns) {
 
 r_obj* ffi_rray_dimension_sizes(r_obj* x);
 r_obj* ffi_rray_dimensionality(r_obj* x);
+r_obj* ffi_rray_strides(r_obj* x);
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
   {"ffi_rray_init_library", (DL_FUNC) &ffi_rray_init_library, 1},
   {"ffi_rray_dimension_sizes", (DL_FUNC) &ffi_rray_dimension_sizes, 1},
   {"ffi_rray_dimensionality", (DL_FUNC) &ffi_rray_dimensionality, 1},
+  {"ffi_rray_strides", (DL_FUNC) &ffi_rray_strides, 1},
   {NULL, NULL, 0}
 };
 

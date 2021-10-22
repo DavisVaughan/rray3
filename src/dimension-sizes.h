@@ -32,47 +32,88 @@ namespace rray {
       );
     }
 
-  } // namespace detail
-
-  static inline
-  r_obj* dimension_sizes(r_obj* x) {
-    r_obj* out = r_dim(x);
-
-    if (out != r_null) {
-      return out;
-    }
-
-    const r_type type = r_typeof(x);
-
-    if (!detail::is_atomic(type)) {
-      detail::stop_non_atomic_typeof(type);
-    }
-
-    return r_int(r_ssize_as_integer(r_length(x)));
   }
 
-  static inline
-  void poke_dimension_sizes(r_obj* x, r_obj* dimension_sizes) {
-    r_attrib_poke_dim(x, dimension_sizes);
-  }
+  class dimension_sizes {
+  private:
+    r_obj* m_shelter;
 
-  static inline
-  r_ssize dimensionality(r_obj* x) {
-    r_obj* out = r_dim(x);
+    r_obj* m_dimension_sizes;
+    int* m_v_dimension_sizes;
 
-    if (out != r_null) {
-      return r_length(out);
+    r_ssize m_size;
+  public:
+    explicit dimension_sizes(r_obj* x);
+    dimension_sizes(const dimension_sizes&) = delete;
+    dimension_sizes& operator=(const dimension_sizes&) = delete;
+
+    r_obj* shelter() const;
+    r_obj* data() const;
+    const int* cbegin() const;
+    r_ssize size() const;
+    int operator[](r_ssize i) const;
+  };
+
+  inline
+  dimension_sizes::dimension_sizes(r_obj* x) {
+    m_shelter = KEEP(r_alloc_list(1));
+
+    r_obj* dimension_sizes = r_dim(x);
+
+    if (dimension_sizes == r_null) {
+      const r_type type = r_typeof(x);
+
+      if (!detail::is_atomic(type)) {
+        detail::stop_non_atomic_typeof(type);
+      }
+
+      dimension_sizes = r_int(r_ssize_as_integer(r_length(x)));
     }
 
-    const r_type type = r_typeof(x);
+    m_dimension_sizes = dimension_sizes;
+    r_list_poke(m_shelter, 0, m_dimension_sizes);
 
-    if (!detail::is_atomic(type)) {
-      detail::stop_non_atomic_typeof(type);
-    }
+    m_v_dimension_sizes = r_int_begin(m_dimension_sizes);
+    m_size = r_length(m_dimension_sizes);
 
-    return 1;
+    FREE(1);
   }
 
-} // namespace rray
+  inline
+  r_obj*
+  dimension_sizes::shelter() const {
+    return m_shelter;
+  }
+
+  inline
+  r_obj*
+  dimension_sizes::data() const {
+    return m_dimension_sizes;
+  }
+
+  inline
+  const int*
+  dimension_sizes::cbegin() const {
+    return static_cast<const int*>(m_v_dimension_sizes);
+  }
+
+  inline
+  r_ssize
+  dimension_sizes::size() const {
+    return m_size;
+  }
+
+  inline
+  int
+  dimension_sizes::operator[](r_ssize i) const {
+    return m_v_dimension_sizes[i];
+  }
+
+
+  static inline
+  void poke_dimension_sizes(r_obj* x, const dimension_sizes& ds) {
+    r_attrib_poke_dim(x, ds.data());
+  }
+}
 
 #endif

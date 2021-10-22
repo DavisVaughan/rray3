@@ -9,4 +9,9 @@ extern "C" {
 #include "rlang/rlang.h"
 }
 
+#define KEEP_SHELTER(x, n_prot) do {                           \
+  KEEP((x).shelter());                                         \
+  *(n_prot) += 1;                                              \
+} while (0);
+
 #endif
