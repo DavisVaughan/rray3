@@ -34,78 +34,45 @@ namespace rray {
 
   }
 
-  class dimension_sizes {
-  private:
-    r_obj* m_dimension_sizes;
-    int* m_v_dimension_sizes;
+  static inline
+  r_obj* dimension_sizes_compute(r_obj* x) {
+    r_obj* dimension_sizes = r_dim(x);
 
-    r_ssize m_size;
-  public:
-    explicit dimension_sizes(r_obj* x);
-    dimension_sizes(const dimension_sizes&) = delete;
-    dimension_sizes& operator=(const dimension_sizes&) = delete;
-    ~dimension_sizes();
-
-    r_obj* data() const;
-    const int* cbegin() const;
-    r_ssize size() const;
-    int operator[](r_ssize i) const;
-  };
-
-  inline
-  dimension_sizes::dimension_sizes(r_obj* x) {
-    m_dimension_sizes = r_dim(x);
-
-    if (m_dimension_sizes == r_null) {
-      const r_type type = r_typeof(x);
-
-      if (!detail::is_atomic(type)) {
-        detail::stop_non_atomic_typeof(type);
-      }
-
-      m_dimension_sizes = r_int(r_ssize_as_integer(r_length(x)));
+    if (dimension_sizes != r_null) {
+      return dimension_sizes;
     }
 
-    KEEP(m_dimension_sizes);
+    const r_type type = r_typeof(x);
 
-    m_v_dimension_sizes = r_int_begin(m_dimension_sizes);
-    m_size = r_length(m_dimension_sizes);
+    if (!detail::is_atomic(type)) {
+      detail::stop_non_atomic_typeof(type);
+    }
+
+    return r_int(r_ssize_as_integer(r_length(x)));
   }
-
-  inline
-  dimension_sizes::~dimension_sizes() {
-    FREE(1);
-  }
-
-  inline
-  r_obj*
-  dimension_sizes::data() const {
-    return m_dimension_sizes;
-  }
-
-  inline
-  const int*
-  dimension_sizes::cbegin() const {
-    return static_cast<const int*>(m_v_dimension_sizes);
-  }
-
-  inline
-  r_ssize
-  dimension_sizes::size() const {
-    return m_size;
-  }
-
-  inline
-  int
-  dimension_sizes::operator[](r_ssize i) const {
-    return m_v_dimension_sizes[i];
-  }
-
 
   static inline
-  void poke_dimension_sizes(r_obj* x, const dimension_sizes& ds) {
-    r_attrib_poke_dim(x, ds.data());
+  void dimension_sizes_poke(r_obj* x, r_obj* dimension_sizes) {
+    r_attrib_poke_dim(x, dimension_sizes);
   }
+
+  static inline
+  r_ssize dimensionality_compute(r_obj* x) {
+    r_obj* dimension_sizes = r_dim(x);
+
+    if (dimension_sizes != r_null) {
+      return r_length(dimension_sizes);
+    }
+
+    const r_type type = r_typeof(x);
+
+    if (!detail::is_atomic(type)) {
+      detail::stop_non_atomic_typeof(type);
+    }
+
+    return 1;
+  }
+
 }
 
 #endif
