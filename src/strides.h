@@ -8,27 +8,25 @@ namespace rray {
 
   class strides {
   private:
-    r_obj* m_shelter;
-
     r_obj* m_strides;
     int* m_v_strides;
 
     r_ssize m_size;
   public:
-    explicit strides(const dimension_sizes& ds);
+    explicit strides(const dimension_sizes& ds, bool broadcastable);
     strides(const strides&) = delete;
     strides& operator=(const strides&) = delete;
+    ~strides();
 
-    r_obj* shelter() const;
     r_obj* data() const;
+    const int* cbegin() const;
+    r_ssize size() const;
+    int operator[](r_ssize i) const;
   };
 
   inline
-  strides::strides(const dimension_sizes& ds) {
-    m_shelter = KEEP(r_alloc_list(1));
-
-    m_strides = r_alloc_integer(ds.size());
-    r_list_poke(m_shelter, 0, m_strides);
+  strides::strides(const dimension_sizes& ds, bool broadcastable = true) {
+    m_strides = KEEP(r_alloc_integer(ds.size()));
 
     m_v_strides = r_int_begin(m_strides);
     m_size = ds.size();
@@ -43,25 +41,42 @@ namespace rray {
 
     m_v_strides[dimensionality - 1] = stride;
 
-    for (r_ssize i = 0; i < dimensionality; ++i) {
-      if (m_v_strides[i] == 1) {
-        m_v_strides[i] = 0;
+    if (broadcastable) {
+      for (r_ssize i = 0; i < dimensionality; ++i) {
+        if (m_v_strides[i] == 1) {
+          m_v_strides[i] = 0;
+        }
       }
     }
-
-    FREE(1);
   }
 
   inline
-  r_obj*
-  strides::shelter() const {
-    return m_shelter;
+  strides::~strides() {
+    FREE(1);
   }
 
   inline
   r_obj*
   strides::data() const {
     return m_strides;
+  }
+
+  inline
+  const int*
+  strides::cbegin() const {
+    return static_cast<const int*>(m_v_strides);
+  }
+
+  inline
+  r_ssize
+  strides::size() const {
+    return m_size;
+  }
+
+  inline
+  int
+  strides::operator[](r_ssize i) const {
+    return m_v_strides[i];
   }
 }
 
