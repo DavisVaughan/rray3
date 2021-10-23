@@ -1,6 +1,7 @@
 #include "stepper.h"
 #include "dimension-sizes.h"
 #include "strides.h"
+#include "capacity.h"
 
 r_obj* ffi_rray_test_iterate(r_obj* x, r_obj* dimension_sizes) {
   r_obj* x_dimension_sizes = KEEP(rray::dimension_sizes_compute(x));
