@@ -21,11 +21,6 @@ namespace rray {
 
     void step(r_ssize dimension);
     void reset(r_ssize dimension);
-
-    static void increment(const int* v_dimension_sizes,
-                          r_ssize dimensionality,
-                          int* v_coordinates,
-                          rstepper& stepper);
   };
 
   inline
@@ -67,12 +62,23 @@ namespace rray {
     m_location -= static_cast<r_ssize>(m_v_backstrides[dimension]);
   }
 
+  struct stepper_utils {
+
+    static
+    void
+    increment(const int* v_dimension_sizes,
+              r_ssize dimensionality,
+              int* v_coordinates,
+              rstepper& stepper);
+
+  };
+
   inline
   void
-  rstepper::increment(const int* v_dimension_sizes,
-                      r_ssize dimensionality,
-                      int* v_coordinates,
-                      rstepper& stepper) {
+  stepper_utils::increment(const int* v_dimension_sizes,
+                           r_ssize dimensionality,
+                           int* v_coordinates,
+                           rstepper& stepper) {
     for (r_ssize i = 0; i < dimensionality; ++i) {
       const int coordinate = v_coordinates[i];
       const int dimension_size = v_dimension_sizes[i];

@@ -53,7 +53,7 @@ r_obj* ffi_rray_test_iterate(r_obj* x, r_obj* dimension_sizes) {
       v_out_coordinates[i + j * capacity] = v_coordinates[j] + 1;
     }
 
-    rray::rstepper::increment(
+    rray::stepper_utils::increment(
       v_dimension_sizes,
       dimensionality,
       v_coordinates,
