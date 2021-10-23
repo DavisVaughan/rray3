@@ -46,3 +46,15 @@ test_that("can iterate with broadcasting along existing dimensions", {
   expect_identical(res$locations, locations)
   expect_identical(res$coordinates, coordinates)
 })
+
+test_that("can iterate with broadcasting along non-existant dimensions at the end", {
+  x <- array(1, c(2, 3))
+  dimension_sizes <- c(2L, 3L, 2L)
+
+  locations <- rep(1:6, times = 2)
+  coordinates <- unname(as.matrix(expand.grid(1:2, 1:3, 1:2)))
+
+  res <- rray_test_iterate(x, dimension_sizes)
+  expect_identical(res$locations, locations)
+  expect_identical(res$coordinates, coordinates)
+})

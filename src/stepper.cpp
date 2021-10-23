@@ -14,7 +14,7 @@ r_obj* ffi_rray_test_iterate(r_obj* x, r_obj* dimension_sizes) {
   r_obj* x_backstrides = KEEP(rray::backstrides_compute(v_x_dimension_sizes, v_x_strides, x_dimensionality));
   const int* v_x_backstrides = r_int_cbegin(x_backstrides);
 
-  rray::rstepper x_stepper(v_x_strides, v_x_backstrides);
+  rray::rstepper x_stepper(v_x_strides, v_x_backstrides, x_dimensionality);
 
   const r_ssize dimensionality = r_length(dimension_sizes);
   const int* v_dimension_sizes = r_int_cbegin(dimension_sizes);

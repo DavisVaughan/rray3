@@ -10,12 +10,15 @@ namespace rray {
     r_ssize m_location;
     const int* m_v_strides;
     const int* m_v_backstrides;
+    r_ssize m_dimensionality;
   public:
     explicit rstepper(const int* v_strides,
-                      const int* v_backstrides);
+                      const int* v_backstrides,
+                      r_ssize dimensionality);
     explicit rstepper(r_ssize offset,
                       const int* v_strides,
-                      const int* v_backstrides);
+                      const int* v_backstrides,
+                      r_ssize dimensionality);
 
     r_ssize location() const;
 
@@ -25,11 +28,13 @@ namespace rray {
 
   inline
   rstepper::rstepper(const int* v_strides,
-                     const int* v_backstrides)
+                     const int* v_backstrides,
+                     r_ssize dimensionality)
     : rstepper::rstepper(
         0,
         v_strides,
-        v_backstrides
+        v_backstrides,
+        dimensionality
     ) {
 
   }
@@ -37,10 +42,12 @@ namespace rray {
   inline
   rstepper::rstepper(r_ssize offset,
                      const int* v_strides,
-                     const int* v_backstrides)
+                     const int* v_backstrides,
+                     r_ssize dimensionality)
     : m_location(offset),
       m_v_strides(v_strides),
-      m_v_backstrides(v_backstrides) {
+      m_v_backstrides(v_backstrides),
+      m_dimensionality(dimensionality) {
 
   }
 
@@ -53,13 +60,17 @@ namespace rray {
   inline
   void
   rstepper::step(r_ssize dimension) {
-    m_location += static_cast<r_ssize>(m_v_strides[dimension]);
+    if (dimension < m_dimensionality) {
+      m_location += static_cast<r_ssize>(m_v_strides[dimension]);
+    }
   }
 
   inline
   void
   rstepper::reset(r_ssize dimension) {
-    m_location -= static_cast<r_ssize>(m_v_backstrides[dimension]);
+    if (dimension < m_dimensionality) {
+      m_location -= static_cast<r_ssize>(m_v_backstrides[dimension]);
+    }
   }
 
   struct stepper_utils {
