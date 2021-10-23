@@ -15,6 +15,7 @@ r_obj* ffi_rray_dimension_sizes(r_obj* x);
 r_obj* ffi_rray_dimensionality(r_obj* x);
 r_obj* ffi_rray_strides(r_obj* x);
 r_obj* ffi_rray_backstrides(r_obj* x);
+r_obj* ffi_rray_capacity(r_obj* x);
 
 extern "C" {
 static const R_CallMethodDef CallEntries[] = {
@@ -26,6 +27,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"ffi_rray_dimensionality", (DL_FUNC) &ffi_rray_dimensionality, 1},
   {"ffi_rray_strides", (DL_FUNC) &ffi_rray_strides, 1},
   {"ffi_rray_backstrides", (DL_FUNC) &ffi_rray_backstrides, 1},
+  {"ffi_rray_capacity", (DL_FUNC) &ffi_rray_capacity, 1},
 
   {NULL, NULL, 0}
 };
