@@ -14,14 +14,14 @@ namespace rray {
 
     for (r_ssize i = 0; i < dimensionality - 1; ++i) {
       v_strides[i] = stride;
-      stride += v_dimension_sizes[i];
+      stride *= v_dimension_sizes[i];
     }
 
     v_strides[dimensionality - 1] = stride;
 
     // Convert to broadcastable strides
     for (r_ssize i = 0; i < dimensionality; ++i) {
-      if (v_strides[i] == 1) {
+      if (v_dimension_sizes[i] == 1) {
         v_strides[i] = 0;
       }
     }
