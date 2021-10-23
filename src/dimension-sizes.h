@@ -55,24 +55,6 @@ namespace rray {
   void dimension_sizes_poke(r_obj* x, r_obj* dimension_sizes) {
     r_attrib_poke_dim(x, dimension_sizes);
   }
-
-  static inline
-  r_ssize dimensionality_compute(r_obj* x) {
-    r_obj* dimension_sizes = r_dim(x);
-
-    if (dimension_sizes != r_null) {
-      return r_length(dimension_sizes);
-    }
-
-    const r_type type = r_typeof(x);
-
-    if (!detail::is_atomic(type)) {
-      detail::stop_non_atomic_typeof(type);
-    }
-
-    return 1;
-  }
-
 }
 
 #endif
