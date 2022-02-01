@@ -1,7 +1,7 @@
 #ifndef RRAY_DIMENSION_SIZES
 #define RRAY_DIMENSION_SIZES
 
-#include "rlang.h"
+#include <rlang.hpp>
 
 namespace rray {
 

@@ -1,4 +1,4 @@
-#include "rlang.h"
+#include <rlang.hpp>
 #include <stdlib.h> // for NULL
 #include <stdbool.h>
 #include <R_ext/Rdynload.h>

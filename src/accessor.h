@@ -1,7 +1,7 @@
 #ifndef RRAY_ACCESSOR
 #define RRAY_ACCESSOR
 
-#include "rlang.h"
+#include <rlang.hpp>
 
 namespace rray {
 
@@ -11,7 +11,7 @@ namespace rray {
     template <> struct get_value_type<R_TYPE_logical> { using type = int; };
     template <> struct get_value_type<R_TYPE_integer> { using type = int; };
     template <> struct get_value_type<R_TYPE_double> { using type = double; };
-    template <> struct get_value_type<R_TYPE_complex> { using type = r_complex_t; };
+    template <> struct get_value_type<R_TYPE_complex> { using type = r_complex; };
     template <> struct get_value_type<R_TYPE_raw> { using type = Rbyte; };
     template <> struct get_value_type<R_TYPE_character> { using type = r_obj*; };
     template <> struct get_value_type<R_TYPE_list> { using type = r_obj*; };
@@ -107,7 +107,7 @@ namespace rray {
     template <> struct get_settable_type<R_TYPE_logical> { using type = int*; };
     template <> struct get_settable_type<R_TYPE_integer> { using type = int*; };
     template <> struct get_settable_type<R_TYPE_double> { using type = double*; };
-    template <> struct get_settable_type<R_TYPE_complex> { using type = r_complex_t*; };
+    template <> struct get_settable_type<R_TYPE_complex> { using type = r_complex*; };
     template <> struct get_settable_type<R_TYPE_raw> { using type = Rbyte*; };
     template <> struct get_settable_type<R_TYPE_character> { using type = r_obj*; };
     template <> struct get_settable_type<R_TYPE_list> { using type = r_obj*; };
@@ -196,7 +196,7 @@ namespace rray {
     m_setter[i] = value;
   }
   template <>
-  inline void rsetter<R_TYPE_complex>::set(r_ssize i, r_complex_t const& value) {
+  inline void rsetter<R_TYPE_complex>::set(r_ssize i, r_complex const& value) {
     m_setter[i] = value;
   }
   template <>

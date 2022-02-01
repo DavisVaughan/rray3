@@ -1,7 +1,7 @@
 #ifndef RRAY_STRIDES
 #define RRAY_STRIDES
 
-#include "rlang.h"
+#include <rlang.hpp>
 
 namespace rray {
 

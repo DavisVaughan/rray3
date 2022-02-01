@@ -1,5 +1,14 @@
+#ifndef RLANG_RLANG_HPP
+#define RLANG_RLANG_HPP
+
 #include <cmath>
+#include <exception>
 using std::isfinite;
+
+// Include Rinternals.h with C++ linkage to avoid rlang including it while
+// having C linkage, which causes issues with the GHA Mac machine
+#define R_NO_REMAP
+#include <Rinternals.h>
 
 extern "C" {
 #ifdef __clang__
@@ -7,7 +16,7 @@ extern "C" {
 # pragma clang diagnostic ignored "-Wkeyword-macro"
 #endif
 
-#define class rlang_class
+#define class klass
 
 #ifdef __clang__
 # pragma clang diagnostic pop
@@ -18,14 +27,17 @@ extern "C" {
 #undef class
 }
 
-
-__attribute__((noreturn))
+static inline
+r_no_return
 void rcc_abort(const char* fn) {
  try {
   throw;
  } catch (const std::exception& err) {
    r_abort(err.what());
  } catch (...) {
-   r_stop_internal(fn, "Caught unknown C++ exception.");
+   r_obj* call = KEEP(r_call(r_sym(fn)));
+   (r_stop_internal)("", -1, call, "Caught unknown C++ exception.");
  }
 }
+
+#endif

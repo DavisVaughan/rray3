@@ -1,7 +1,7 @@
 #ifndef RRAY_CAPACITY
 #define RRAY_CAPACITY
 
-#include "rlang.h"
+#include <rlang.hpp>
 
 namespace rray {
 

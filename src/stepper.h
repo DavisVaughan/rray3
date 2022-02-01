@@ -1,7 +1,7 @@
 #ifndef RRAY_STEPPER
 #define RRAY_STEPPER
 
-#include "rlang.h"
+#include <rlang.hpp>
 
 namespace rray {
 

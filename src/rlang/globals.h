@@ -14,7 +14,7 @@ struct r_globals {
   int na_lgl;
   int na_int;
   double na_dbl;
-  r_complex_t na_cpl;
+  r_complex na_cpl;
   r_obj* na_str;
 };
 
@@ -41,7 +41,10 @@ struct r_globals_strs {
 
 struct r_globals_syms {
   r_obj* abort;
-  r_obj* klass;
+  r_obj* brackets;
+  r_obj* brackets2;
+  r_obj* call;
+  r_obj* class;
   r_obj* condition;
   r_obj* dots;
   r_obj* dot_environment;
@@ -63,6 +66,7 @@ struct r_globals_syms {
   r_obj* dim;
   r_obj* dim_names;
   r_obj* row_names;
+  r_obj* stack_overflow_error;
   r_obj* tilde;
   r_obj* unbound;
   r_obj* w;
